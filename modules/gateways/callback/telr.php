@@ -58,13 +58,25 @@ if(isset($_GET['invoiceid']) && $_GET['invoiceid'] > 0){
 						logTransaction('telr',$_GET,"Successful");
 						header("Location: $whcmsRedirectInvoice");
 					default:
-						// No action defined
+						$errorMsg = 'Invalid response status : '.$transaction_status;
 						break;
 				}
+			}else{
+				$errorMsg = 'Invalid response status : '.$transaction_status;
 			}
 				
+		}else{
+			$errorMsg = 'Order details not present in response';
 		}	
+	}else{
+		$errorMsg = 'Invalid response invoiceid :'.$invoiceId;
 	}
+}else{
+	$errorMsg = 'Invalid response invoiceid :'.$invoiceId;
 }
+
+
+logTransaction('telr',$errorMsg,"Error");
+header("Location: $whcmsRedirectInvoice");
 
 ?>

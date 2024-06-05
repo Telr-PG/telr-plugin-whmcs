@@ -20,7 +20,7 @@ This plugin enables your WHMCS powered platform to start accepting payments via 
 
 ### Requirements ###
 
-* Magento 8.X Stable or higher
+* WHMCS 8.X Stable or higher
 
 ### License ###
 

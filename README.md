@@ -22,6 +22,6 @@ This plugin enables your WHMCS powered platform to start accepting payments via 
 
 * WHMCS 8.X Stable or higher
 
-### License ###
+## License
 
-Copyright © 2023 Telr. All rights reserved. See LICENSE for license details.
+This repository is available under the [MIT license](LICENSE).

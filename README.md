@@ -22,7 +22,7 @@ This plugin enables your WHMCS powered platform to start accepting payments via 
 
 * WHMCS 8.X Stable or higher
 
-## License
+### License ###
 
 This repository is available under the [MIT license](LICENSE).
 

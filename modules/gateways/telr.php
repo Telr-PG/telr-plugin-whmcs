@@ -186,7 +186,6 @@ function telr_link($params)
     $whmcsVersion = $params['whmcsVersion'];
 	
 	$returnUrl       = $params['systemurl'].'modules/gateways/callback/telr.php?invoiceid='.$invoiceId;
-	$ivpCallbackUrl  = $params['systemurl'].'modules/gateways/callback/telr-ivp-callback.php';
 	$declinedUrl     = $params['systemurl'].'viewinvoice.php?id='.$invoiceId;
 	$cancelUrl       = $params['systemurl'].'viewinvoice.php?id='.$invoiceId;
 	
@@ -214,8 +213,7 @@ function telr_link($params)
 		'bill_zip'        => $postcode,
 		'bill_country'    => $country,
 		'bill_email'      => $email,
-		'bill_tel'        => $phone,
-		'ivp_update_url'  => $ivpCallbackUrl,
+		'bill_tel'        => $phone
 	);
 	
 	$currentUser = new \WHMCS\Authentication\CurrentUser;

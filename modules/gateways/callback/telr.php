@@ -11,14 +11,14 @@ include("../../../includes/invoicefunctions.php");
 $gatewayParams  = getGatewayVariables('telr');
 if (!$gatewayParams["type"]) die("Module Not Activated");
 
-if(isset($_GET['invoiceid']) && $_GET['invoiceid'] > 0){
+if(isset($_GET['invoiceid']) && $_GET['invoiceid'] > 0) {
 	$invoiceId 				= $_GET['invoiceid'];
 	$accountId 				= $gatewayParams["accountID"];
 	$secretKey 				= $gatewayParams["secretKey"];
 	$whcmsRedirectInvoice 	= $gatewayParams['systemurl'].'viewinvoice.php?id='.$invoiceId; 
 	# Checks invoice ID is a valid invoice number or ends processing
 	$invoiceId = checkCbInvoiceID($invoiceId,$gatewayParams["name"]); 	
-	if($invoiceId){
+	if($invoiceId) {
 		$results = Capsule::table('mod_telrpayment')->where('invoiceid', $invoiceId)->first();
 		$telrRef = $results->telr_ref;
 		
@@ -58,13 +58,24 @@ if(isset($_GET['invoiceid']) && $_GET['invoiceid'] > 0){
 						logTransaction('telr',$_GET,"Successful");
 						header("Location: $whcmsRedirectInvoice");
 					default:
-						// No action defined
+						$errorMsg = 'Invalid response status : '.$transaction_status;
 						break;
 				}
+			}else {
+				$errorMsg = 'Invalid response status : '.$transaction_status;
 			}
 				
+		}else {
+			$errorMsg = 'Order details not present in response';
 		}	
+	}else {
+		$errorMsg = 'Invalid response invoiceid :'.$invoiceId;
 	}
+}else {
+	$errorMsg = 'Invoice ID is null or invalid';
 }
+
+logTransaction('telr',$errorMsg,"Error");
+header("Location: $whcmsRedirectInvoice");
 
 ?>

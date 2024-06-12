@@ -11,14 +11,14 @@ include("../../../includes/invoicefunctions.php");
 $gatewayParams  = getGatewayVariables('telr');
 if (!$gatewayParams["type"]) die("Module Not Activated");
 
-if(isset($_GET['invoiceid']) && $_GET['invoiceid'] > 0){
+if(isset($_GET['invoiceid']) && $_GET['invoiceid'] > 0) {
 	$invoiceId 				= $_GET['invoiceid'];
 	$accountId 				= $gatewayParams["accountID"];
 	$secretKey 				= $gatewayParams["secretKey"];
 	$whcmsRedirectInvoice 	= $gatewayParams['systemurl'].'viewinvoice.php?id='.$invoiceId; 
 	# Checks invoice ID is a valid invoice number or ends processing
 	$invoiceId = checkCbInvoiceID($invoiceId,$gatewayParams["name"]); 	
-	if($invoiceId){
+	if($invoiceId) {
 		$results = Capsule::table('mod_telrpayment')->where('invoiceid', $invoiceId)->first();
 		$telrRef = $results->telr_ref;
 		
@@ -42,7 +42,7 @@ if(isset($_GET['invoiceid']) && $_GET['invoiceid'] > 0){
 		$response = json_decode($results, true);	
 		
 		
-		if (array_key_exists("order", $response)){
+		if (array_key_exists("order", $response)) {
 			$order_status       = $response['order']['status']['code'];
 			$transaction_status = $response['order']['transaction']['status'];
 			$transactionRef = $response['order']['transaction']['ref'];
@@ -50,8 +50,8 @@ if(isset($_GET['invoiceid']) && $_GET['invoiceid'] > 0){
 			$fee = 0;
 			
 			$validTransactionRef = checkCbTransID($transactionRef); # Checks transaction number isn't already in the database and ends processing if it does
-			if ($transaction_status == 'A'){
-				switch ($order_status){
+			if ($transaction_status == 'A') {
+				switch ($order_status) {
 					case '2':
 					case '3':						
 						addInvoicePayment($invoiceId,$transactionRef,$amount,$fee,'telr'); 
@@ -61,17 +61,17 @@ if(isset($_GET['invoiceid']) && $_GET['invoiceid'] > 0){
 						$errorMsg = 'Invalid response status : '.$transaction_status;
 						break;
 				}
-			}else{
+			}else {
 				$errorMsg = 'Invalid response status : '.$transaction_status;
 			}
 				
-		}else{
+		}else {
 			$errorMsg = 'Order details not present in response';
 		}	
-	}else{
+	}else {
 		$errorMsg = 'Invalid response invoiceid :'.$invoiceId;
 	}
-}else{
+}else {
 	$errorMsg = 'Invoice ID is null or invalid';
 }
 
